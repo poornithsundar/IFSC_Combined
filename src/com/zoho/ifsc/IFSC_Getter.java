@@ -3,7 +3,7 @@ package com.zoho.ifsc;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -20,6 +20,8 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
@@ -31,14 +33,122 @@ import org.jsoup.nodes.Element;
 
 public class IFSC_Getter
 {
-
-	public static void main(String[] args) throws Exception
+	public static void insert_data(ArrayList<ArrayList<String>> a,ArrayList<ArrayList<String>> b,ArrayList<ArrayList<String>> c,ArrayList<ArrayList<String>> d,ArrayList<ArrayList<String>> e,ArrayList<ArrayList<String>> f) throws Exception
 	{
+		FileOutputStream xlsOutputStream = new FileOutputStream(new File("valid.xls"));
+		FileOutputStream xlsOutputStream2 = new FileOutputStream(new File("invalid.xls"));
+		HSSFWorkbook workbook = new HSSFWorkbook();
+		HSSFWorkbook workbook2 = new HSSFWorkbook();
+		HSSFSheet sheet1 = workbook.createSheet("NEFT");
+		Row ro1 = sheet1.createRow(0);
+		ro1.createCell(0).setCellValue("Bank Name");
+		ro1.createCell(1).setCellValue("IFSC CODE");
+		ro1.createCell(2).setCellValue("Branch");
+		HSSFSheet sheet2 = workbook.createSheet("RTGS");
+		ro1 = sheet2.createRow(0);
+		ro1.createCell(0).setCellValue("Bank Name");
+		ro1.createCell(1).setCellValue("IFSC CODE");
+		ro1.createCell(2).setCellValue("Branch");
+		HSSFSheet sheet3 = workbook.createSheet("NACH");
+		ro1 = sheet3.createRow(0);
+		ro1.createCell(0).setCellValue("Branch Code");
+		ro1.createCell(1).setCellValue("Bank Name");
+		ro1.createCell(2).setCellValue("IFSC CODE");
+		HSSFSheet sheet4 = workbook2.createSheet("NEFT");
+		ro1 = sheet4.createRow(0);
+		ro1.createCell(0).setCellValue("Bank Name");
+		ro1.createCell(1).setCellValue("IFSC CODE");
+		ro1.createCell(2).setCellValue("Branch");
+		HSSFSheet sheet5 = workbook2.createSheet("RTGS");
+		ro1 = sheet5.createRow(0);
+		ro1.createCell(0).setCellValue("Bank Name");
+		ro1.createCell(1).setCellValue("IFSC CODE");
+		ro1.createCell(2).setCellValue("Branch");
+		HSSFSheet sheet6 = workbook2.createSheet("NACH");
+		ro1 = sheet6.createRow(0);
+		ro1.createCell(0).setCellValue("Branch Code");
+		ro1.createCell(1).setCellValue("Bank Name");
+		ro1.createCell(2).setCellValue("IFSC CODE");
+		try {
+			int i;
+			for(i=0;i<a.size();i++)
+			{
+				Row r1 = sheet1.createRow(i+1);
+				Cell c3 = r1.createCell(0);
+				c3.setCellValue(a.get(i).get(0));
+				Cell c4 = r1.createCell(1);
+				c4.setCellValue(a.get(i).get(1));
+				Cell c5 = r1.createCell(2);
+				c5.setCellValue(a.get(i).get(2));
+			}
+			for(i=0;i<b.size();i++)
+			{
+				Row r1 = sheet2.createRow(i+1);
+				Cell c3 = r1.createCell(0);
+				c3.setCellValue(b.get(i).get(0));
+				Cell c4 = r1.createCell(1);
+				c4.setCellValue(b.get(i).get(1));
+				Cell c5 = r1.createCell(2);
+				c5.setCellValue(b.get(i).get(2));
+			}
+			for(i=0;i<c.size();i++)
+			{
+				Row r1 = sheet3.createRow(i+1);
+				Cell c3 = r1.createCell(0);
+				c3.setCellValue(c.get(i).get(0));
+				Cell c4 = r1.createCell(1);
+				c4.setCellValue(c.get(i).get(1));
+				Cell c5 = r1.createCell(2);
+				c5.setCellValue(c.get(i).get(2));
+			}
+			workbook.write(xlsOutputStream);
+			for(i=0;i<d.size();i++)
+			{
+				Row r1 = sheet4.createRow(i+1);
+				Cell c3 = r1.createCell(0);
+				c3.setCellValue(d.get(i).get(0));
+				Cell c4 = r1.createCell(1);
+				c4.setCellValue(d.get(i).get(1));
+				Cell c5 = r1.createCell(2);
+				c5.setCellValue(d.get(i).get(2));
+			}
+			for(i=0;i<e.size();i++)
+			{
+				Row r1 = sheet5.createRow(i+1);
+				Cell c3 = r1.createCell(0);
+				c3.setCellValue(e.get(i).get(0));
+				Cell c4 = r1.createCell(1);
+				c4.setCellValue(e.get(i).get(1));
+				Cell c5 = r1.createCell(2);
+				c5.setCellValue(e.get(i).get(2));
+			}
+			for(i=0;i<f.size();i++)
+			{
+				Row r1 = sheet6.createRow(i+1);
+				Cell c3 = r1.createCell(0);
+				c3.setCellValue(f.get(i).get(0));
+				Cell c4 = r1.createCell(1);
+				c4.setCellValue(f.get(i).get(1));
+				Cell c5 = r1.createCell(2);
+				c5.setCellValue(f.get(i).get(2));
+			}
+			workbook2.write(xlsOutputStream2);
+			System.out.println("Excel File is created .....!");
+			workbook.close();
+			workbook2.close();
+		} catch (Exception ee) {
+			System.out.println("Exception while reading Excel " + ee);
+		} 
+	}
+	public static void main(String[] args) throws Exception
+	{		
+		ArrayList<ArrayList<String>> NEFT_valid = new ArrayList<>();
+		ArrayList<ArrayList<String>> NEFT_invalid = new ArrayList<>();
+		ArrayList<ArrayList<String>> RTGS_valid = new ArrayList<>();
+		ArrayList<ArrayList<String>> RTGS_invalid = new ArrayList<>();
+		ArrayList<ArrayList<String>> NACH_valid = new ArrayList<>();
+		ArrayList<ArrayList<String>> NACH_invalid = new ArrayList<>();
 		ArrayList<String> ifsc_check = new ArrayList<>();
-		FileWriter fw=new FileWriter("NEFT_valid.xls");
-		fw.write("BANK NAME"+"\t"+"IFSC"+"\t"+"BRANCH"+"\n");
-		FileWriter fw1=new FileWriter("NEFT_invalid.xls");
-		fw1.write("BANK NAME"+"\t"+"IFSC"+"\t"+"BRANCH"+"\n");
 		try {
 			InputStream is = new FileInputStream(new File("NEFT_Check.xlsx"));
 	
@@ -46,7 +156,6 @@ public class IFSC_Getter
 			// InputStream or File for XLSX file (required)
 			int i = 0;
 			int count=1;
-	
 			while (i < wb.getNumberOfSheets())
 			{
 				XSSFSheet sheet = wb.getSheetAt(i);		
@@ -54,6 +163,7 @@ public class IFSC_Getter
 				{
 					Row r = sheet.getRow(j);
 					ArrayList<String> temp = new ArrayList<>();
+					ArrayList<String> data = new ArrayList<>();
 					for (Cell cell : r)
 					{
 						String value = "";
@@ -78,38 +188,36 @@ public class IFSC_Getter
 							default:
 								System.out.println("Invalid value");
 						}
+						value = value.replaceAll("[^a-zA-Z0-9 ]","");
 						temp.add(value);
 					}
 					String ifsc = temp.get(1);
 					String str = temp.get(0) + "\t" + temp.get(1) + "\t" + temp.get(3);
+					data.add(temp.get(0));
+					data.add(temp.get(1));
+					data.add(temp.get(3));
 					if (ifsc.trim().length() == 11 && !(ifsc_check.contains(ifsc.trim())))
 					{
-						fw.write(str + "\n");
+						NEFT_valid.add(data);
 						ifsc_check.add(ifsc.trim());
 					}
 					else if (ifsc.length() == 11)
 					{
-						fw1.write(str + "\t"+"Already Exist"+"\n");
+						NEFT_invalid.add(data);
 					}
 					else
 					{
-						fw1.write(str + "\n");
+						NEFT_invalid.add(data);
 					}
 					System.out.println("NEFT Sheet : "+i+" Count: "+ count++ +" "+ str);
 				}
 				i++;
 			}
-			fw.close();
-			fw1.close();
-			is.close();
 			wb.close();
 			System.out.println("\n\n\n ****************** NEFT COMPLETED *********************");
-			fw=new FileWriter("RTGS_valid.xls");
-			fw.write("BANK NAME"+"\t"+"IFSC"+"\t"+"BRANCH"+"\n");
-			fw1=new FileWriter("RTGS_invalid.xls");
-			fw1.write("BANK NAME"+"\t"+"IFSC"+"\t"+"BRANCH"+"\n");
 			is = new FileInputStream(new File("RTGS_Check.xlsx"));
 			wb=new XSSFWorkbook(is);
+			// InputStream or File for XLSX file (required)
 			i = 0;
 			count=1;
 			while (i < wb.getNumberOfSheets())
@@ -119,6 +227,7 @@ public class IFSC_Getter
 				{
 					Row r = sheet.getRow(j);
 					ArrayList<String> temp = new ArrayList<>();
+					ArrayList<String> data = new ArrayList<>();
 					for (Cell cell : r)
 					{
 						String value = "";
@@ -141,34 +250,33 @@ public class IFSC_Getter
 								value = String.valueOf(cell.getBooleanCellValue());
 								break;
 							default:
-								break;
+								System.out.println("Invalid value");
 						}
 						value = value.replaceAll("[^a-zA-Z0-9 ]","");
 						temp.add(value);
 					}
 					String ifsc = temp.get(1);
-					String str = temp.get(0) + "\t" + temp.get(1).trim() + "\t" + temp.get(2);
+					String str = temp.get(0) + "\t" + temp.get(1) + "\t" + temp.get(2);
+					data.add(temp.get(0));
+					data.add(temp.get(1));
+					data.add(temp.get(2));
 					if (ifsc.trim().length() == 11 && !(ifsc_check.contains(ifsc.trim())))
 					{
-						fw.write(str + "\n");
+						RTGS_valid.add(data);
 						ifsc_check.add(ifsc.trim());
 					}
 					else if (ifsc.length() == 11)
 					{
-						fw1.write(str + "\t"+"Already Exist"+"\n");
+						RTGS_invalid.add(data);
 					}
 					else
 					{
-						fw1.write(str + "\n");
+						RTGS_invalid.add(data);
 					}
 					System.out.println("RTGS Sheet : "+i+" Count: "+ count++ +" "+ str);
 				}
 				i++;
 			}
-			fw.close();
-			fw1.close();
-			is.close();
-			wb.close();
 			System.out.println("\n\n\n ****************** RTGS COMPLETED *********************");
 			TrustManager[] trustAllCerts = new TrustManager[]{
 			        new X509TrustManager() {
@@ -225,10 +333,6 @@ public class IFSC_Getter
 			    }
 			    in.close();
 			    String res = sb.toString();
-			    fw=new FileWriter("NACH_valid.xls");
-				fw1=new FileWriter("NACH_invalid.xls");
-				fw.write("Bank Code\tBank Name\tIFSC Code\n");
-				fw1.write("Bank Code\tBank Name\tIFSC Code\n");
 			    Document doc = Jsoup.parse(res);
 			    Element table = doc.select("table").get(0);
 			    Iterator<Element> ite = table.select("td").iterator();
@@ -236,6 +340,7 @@ public class IFSC_Getter
 			    while(ite.hasNext())
 			    {
 			    	ArrayList<String> temp = new ArrayList<>();
+			    	ArrayList<String> data = new ArrayList<>();
 			    	ite.next();
 			        temp.add(ite.next().text());
 			        temp.add(ite.next().text());
@@ -248,27 +353,33 @@ public class IFSC_Getter
 			        temp.add(ite.next().text());
 			        ite.next();
 			        String ifsc = temp.get(3);
-			        if(temp.get(3).length()==11 && !(ifsc_check.contains(ifsc.trim())))
-			        {
-			        	fw.write(temp.get(0)+"\t"+temp.get(1)+"\t"+temp.get(3)+"\n");
-			        	ifsc_check.add(ifsc);
-			        }
-			        else if(temp.get(3).length()==11)
-			        {
-			        	fw1.write(temp.get(0)+"\t"+temp.get(1)+"\t"+temp.get(3)+"\t"+"Already Exists"+"\n");
-			        }
-			        else
-			        {
-			        	fw1.write(temp.get(0)+"\t"+temp.get(1)+"\t"+temp.get(3)+"\n");
-			        }
+			        data.add(temp.get(0));
+					data.add(temp.get(1));
+					data.add(temp.get(3));
+					if (ifsc.trim().length() == 11 && !(ifsc_check.contains(ifsc.trim())))
+					{
+						NACH_valid.add(data);
+						ifsc_check.add(ifsc.trim());
+					}
+					else if (ifsc.length() == 11)
+					{
+						NACH_invalid.add(data);
+					}
+					else
+					{
+						NACH_invalid.add(data);
+					}
 			        System.out.println(++i);
 			    }
-			    fw.close();
-			    fw1.close();
 			    System.out.println("\n\n\n ****************** NACH COMPLETED *********************");
 			} catch (MalformedURLException e) {
 			    System.out.println("Error in SLL Connetion" + e);
 			}
+			System.out.println(NEFT_valid.size()+" - "+NEFT_invalid.size());
+			System.out.println(RTGS_valid.size()+" - "+RTGS_invalid.size());
+			System.out.println(NACH_valid.size()+" - "+NACH_invalid.size());
+			insert_data(NEFT_valid,RTGS_valid,NACH_valid,NEFT_invalid,RTGS_invalid,NACH_invalid);
+			wb.close();
 		}
 		catch(Exception e)
 		{
